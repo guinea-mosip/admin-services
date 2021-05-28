@@ -1,5 +1,5 @@
 
-name: [Masterdata] Maven Package upon a push
+name: Masterdata Maven Package upon a push
 
 on:
   push:
