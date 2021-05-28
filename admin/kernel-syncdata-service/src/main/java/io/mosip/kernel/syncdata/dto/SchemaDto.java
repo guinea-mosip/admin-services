@@ -52,6 +52,7 @@ public class SchemaDto {
 	private String contactType;
 	private String group;
 
+
 	/* Added for layout functionality by AV */
 	private Map<String, String> layout;
 
