@@ -1,10 +1,7 @@
 
 name: Masterdata Maven Package upon a push
 
-on:
-  push:
-    branches:
-      - master
+on: workflow_dispatch
   
 jobs:
   build:
