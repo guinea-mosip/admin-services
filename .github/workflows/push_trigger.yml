@@ -6,7 +6,7 @@ on:
     branches:
       - master
       - 1.*
-      - dev
+      - develop
   
 jobs:
   build:
