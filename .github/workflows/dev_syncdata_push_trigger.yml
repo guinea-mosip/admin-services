@@ -1,8 +1,14 @@
 
 name: Syncdata Maven Package upon a push
 
-on: workflow_dispatch
-  
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Syncdata'
+        default: 'Syncdata'
+        required: true
+
 jobs:
   build:
 

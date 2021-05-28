@@ -1,7 +1,13 @@
 
 name: Masterdata Maven Package upon a push
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Masterdata'
+        default: 'Masterdata'
+        required: true
   
 jobs:
   build:
