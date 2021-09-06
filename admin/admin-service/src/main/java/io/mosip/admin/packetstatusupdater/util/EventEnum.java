@@ -67,9 +67,11 @@ public enum EventEnum {
 	QUALITY_CHECK("ADM-PKT-120",AuditConstant.AUDIT_SYSTEM,"Request for get packet status","Packet with registration id %s has quality check done","ADM-PKT","Packet service","%s","RID",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
 	BIOMETRIC_AUTHENTICATION("ADM-PKT-121",AuditConstant.AUDIT_SYSTEM,"Request for get packet status","Packet with registration id %s has Biometric Authentication done","ADM-PKT","Packet service","%s","RID",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
 	SECUREZONE_NOTIFICATION("ADM-PKT-122",AuditConstant.AUDIT_SYSTEM,"Request for get packet status","Packet with registration id %s has notification received to securezone","ADM-PKT","Packet service","%s","RID",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
-	PRINT("ADM-PKT-123",AuditConstant.AUDIT_SYSTEM,"Request for get packet status","Packet with registration id %s is at print","ADM-PKT","Packet service","%s","RID",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME);
-	
-	
+	PRINT("ADM-PKT-123",AuditConstant.AUDIT_SYSTEM,"Request for get packet status","Packet with registration id %s is at print","ADM-PKT","Packet service","%s","RID",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
+	PACKET_CLASSIFICATION("ADM-PKT-124",AuditConstant.AUDIT_SYSTEM,"Request for get packet status","Packet with registration id %s has packet classification done","ADM-PKT","Packet service","%s","RID",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME),
+	UNKNOWN_EVENT("ADM-PKT-125",AuditConstant.AUDIT_SYSTEM, "Event","Unknown event in registration id %s","ADM-PKT","Packet service","%s","RID",AuditConstant.APPLICATION_ID,AuditConstant.APPLICATION_NAME);
+
+
 	private final String eventId;
 
 	private final String type;
@@ -163,49 +165,52 @@ public enum EventEnum {
 
 	public static EventEnum getEventEnumBasedOnPAcketStatus(PacketStatusUpdateDto ps)
 	{
-		
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("PACKET_RECEIVER"))
-		{
-			if(null==ps.getParentTransactionId() || ps.getParentTransactionId().isBlank())
-				return getEventEnumWithValue(PACKET_RECEIVER,ps.getRegistrationId());
-			return getEventEnumWithValue(PACKET_RECEIVER_WITH_TRANS_CODE,ps.getRegistrationId());
+		if(ps.getTransactionTypeCode() != null) {
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("PACKET_RECEIVER"))
+			{
+				if(null==ps.getParentTransactionId() || ps.getParentTransactionId().isBlank())
+					return getEventEnumWithValue(PACKET_RECEIVER,ps.getRegistrationId());
+				return getEventEnumWithValue(PACKET_RECEIVER_WITH_TRANS_CODE,ps.getRegistrationId());
+			}
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("UPLOAD_PACKET"))
+				return getEventEnumWithValue(UPLOAD_PACKET,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("PRINT_SERVICE"))
+				return getEventEnumWithValue(PRINT_SERVICE,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("PRINT_POSTAL_SERVICE"))
+				return getEventEnumWithValue(PRINT_POSTAL_SERVICE,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("VIRUS_SCAN"))
+				return getEventEnumWithValue(VIRUS_SCAN,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("VALIDATE_PACKET"))
+				return getEventEnumWithValue(VALIDATE_PACKET,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("OSI_VALIDATE"))
+				return getEventEnumWithValue(OSI_VALIDATE,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("EXTERNAL_INTEGRATION"))
+				return getEventEnumWithValue(EXTERNAL_INTEGRATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("DEMOGRAPHIC_VERIFICATION"))
+				return getEventEnumWithValue(DEMOGRAPHIC_VERIFICATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("MANUAL_VERIFICATION"))
+				return getEventEnumWithValue(MANUAL_VERIFICATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("BIOGRAPHIC_VERIFICATION"))
+				return getEventEnumWithValue(BIOGRAPHIC_VERIFICATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("UIN_GENERATOR"))
+				return getEventEnumWithValue(UIN_GENERATOR,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("NOTIFICATION"))
+				return getEventEnumWithValue(NOTIFICATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("PACKET_REPROCESS"))
+				return getEventEnumWithValue(PACKET_REPROCESS,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("QUALITY_CHECK"))
+				return getEventEnumWithValue(QUALITY_CHECK,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("BIOMETRIC_AUTHENTICATION"))
+				return getEventEnumWithValue(BIOMETRIC_AUTHENTICATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("SECUREZONE_NOTIFICATION"))
+				return getEventEnumWithValue(SECUREZONE_NOTIFICATION,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("PRINT"))
+				return getEventEnumWithValue(PRINT,ps.getRegistrationId());
+			if(ps.getTransactionTypeCode().equalsIgnoreCase("PACKET_CLASSIFICATION"))
+				return getEventEnumWithValue(PACKET_CLASSIFICATION,ps.getRegistrationId());
+			return getEventEnumWithValue(UNKNOWN_EVENT,ps.getRegistrationId());
 		}
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("UPLOAD_PACKET")) 
-			return getEventEnumWithValue(UPLOAD_PACKET,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("PRINT_SERVICE"))
-			return getEventEnumWithValue(PRINT_SERVICE,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("PRINT_POSTAL_SERVICE"))
-			return getEventEnumWithValue(PRINT_POSTAL_SERVICE,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("VIRUS_SCAN")) 
-			return getEventEnumWithValue(VIRUS_SCAN,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("VALIDATE_PACKET")) 
-			return getEventEnumWithValue(VALIDATE_PACKET,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("OSI_VALIDATE")) 
-			return getEventEnumWithValue(OSI_VALIDATE,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("EXTERNAL_INTEGRATION")) 
-			return getEventEnumWithValue(EXTERNAL_INTEGRATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("DEMOGRAPHIC_VERIFICATION")) 
-			return getEventEnumWithValue(DEMOGRAPHIC_VERIFICATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("MANUAL_VERIFICATION")) 
-			return getEventEnumWithValue(MANUAL_VERIFICATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("BIOGRAPHIC_VERIFICATION")) 
-			return getEventEnumWithValue(BIOGRAPHIC_VERIFICATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("UIN_GENERATOR")) 
-			return getEventEnumWithValue(UIN_GENERATOR,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("NOTIFICATION")) 
-			return getEventEnumWithValue(NOTIFICATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("PACKET_REPROCESS")) 
-			return getEventEnumWithValue(PACKET_REPROCESS,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("QUALITY_CHECK")) 
-			return getEventEnumWithValue(QUALITY_CHECK,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("BIOMETRIC_AUTHENTICATION")) 
-			return getEventEnumWithValue(BIOMETRIC_AUTHENTICATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("SECUREZONE_NOTIFICATION")) 
-			return getEventEnumWithValue(SECUREZONE_NOTIFICATION,ps.getRegistrationId());
-		if(ps.getTransactionTypeCode().equalsIgnoreCase("PRINT")) 
-			return getEventEnumWithValue(PRINT,ps.getRegistrationId());
-		return null;
-		
+		return getEventEnumWithValue(UNKNOWN_EVENT,ps.getRegistrationId());
 	}
 	
 	public static EventEnum getEventEnumWithValue(EventEnum e,String s)
